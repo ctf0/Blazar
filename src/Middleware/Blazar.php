@@ -21,7 +21,7 @@ class Blazar
         $response = $next($request);
 
         // dont cache request
-        if ($this->dontCache($response)) {
+        if ($this->dontCache($response) || !str_contains($request->getQueryString(), '_escaped_fragment')) {
             return $response;
         }
 
