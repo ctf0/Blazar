@@ -1,0 +1,39 @@
+{
+    "name": "ctf0/blazar",
+    "description": "pre-render pages on the fly",
+    "homepage": "https://github.com/ctf0/Blazar",
+    "license": "MIT",
+    "keywords": [
+        "ctf0",
+        "Blazar",
+        "laravel",
+        "phantomjs",
+        "pre-render",
+        "prerender"
+    ],
+    "authors": [
+        {
+            "name": "Muah",
+            "email": "muah003@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/support": "~5.4",
+        "php" : "~7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ctf0\\Blazar\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ctf0\\Blazar\\BlazarServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
