@@ -30,7 +30,7 @@ protected $middlewareGroups = [
 
 protected $routeMiddleware = [
     // ...
-    'dont-http-cache' => \ctf0\Blazar\Middleware\DontHttpCache::class,
+    'dont-pre-render' => \ctf0\Blazar\Middleware\DontPreRender::class,
 ];
 ```
 
@@ -136,7 +136,7 @@ what happens is you will be able to login & visit any of the guarded pages for t
 
 however we have a little trick to tackle that and the user status will persist across views, except each page he tries to visit will produce the same behavior,
 
-so to solve that, simply add **`dont-http-cache` middleware** to those routes and everything will work as expected.
+so to solve that, simply add **`dont-pre-render` middleware** to those routes and everything will work as expected.
 
 also make sure to add the middleware to the **"login & logout"** routes as well to avoid getting `CSRF Token Mismatch` for other users trying to login.
 
