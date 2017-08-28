@@ -63,7 +63,7 @@ class Blazar
             if ($cache_store->has($cache_name)) {
                 $response->setContent($cache_store->get($cache_name));
             } else {
-                $this->preRenderedResponse($request, $response);
+                $this->preRenderedResponse($request, $response, $url);
             }
         } else {
             $tags = $cache_store->tags($this->cacheName($userId));
@@ -71,7 +71,7 @@ class Blazar
             if ($tags->has($cache_name)) {
                 $response->setContent($tags->get($cache_name));
             } else {
-                $this->preRenderedResponse($request, $response, $userId);
+                $this->preRenderedResponse($request, $response, $url, $userId);
             }
         }
 
@@ -94,7 +94,7 @@ class Blazar
         if ($cache_store->has($cache_name)) {
             $response->setContent($cache_store->get($cache_name));
         } else {
-            $this->preRenderedResponse($request, $response, null, true);
+            $this->preRenderedResponse($request, $response, $url, null, true);
             $response->setContent($cache_store->get($cache_name));
         }
 
@@ -102,16 +102,17 @@ class Blazar
     }
 
     /**
-     * main op.
+     * main ops.
      *
      * @param [type] $request  [description]
      * @param [type] $response [description]
+     * @param [type] $url      [description]
      * @param [type] $userId   [description]
      * @param [type] $bots     [description]
      *
      * @return [type] [description]
      */
-    protected function preRenderedResponse($request, $response, $userId = null, $bots = null)
+    protected function preRenderedResponse($request, $response, $url, $userId = null, $bots = null)
     {
         if (
             !$request->ajax() && !$request->pjax() &&
@@ -119,8 +120,6 @@ class Blazar
             $request->isMethodCacheable() &&
             $response->isSuccessful()
         ) {
-            $url = $request->url();
-
             $bots ? event(new PreRendEvent($url)) : event(new PreRendEventQ($url, $request->session()->token(), $userId));
         }
     }
