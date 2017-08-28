@@ -81,8 +81,6 @@ return [
     >- make your website **SEO friendly**, because instead of serving the normal pages that usually produce issues for crawlers, we are now serving the **pre-renderd version**. [ReadMore](#render-pages-automatically)
     >- even for websites with some traffic, we are still going to process each visited page without any problems.
 
-- plz note that we dont pre-render/cache urls with query strings **(except "_escaped_fragment")**, instead it would be better if you cached the db query it self.
-
 #### # Render Pages Automatically
 
 Atm in order to ***pre-render*** any page, it have to be visited first but if you want to make sure that all is working from day one, you can use the excellent package [laravel-link-checker](https://packagist.org/packages/spatie/laravel-link-checker) by **Spatie**

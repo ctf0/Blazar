@@ -2,6 +2,7 @@
 
 namespace ctf0\Blazar;
 
+use Event;
 use ctf0\Blazar\Traits\Helpers;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 
@@ -18,6 +19,10 @@ class BlazarEventServiceProvider extends EventServiceProvider
     {
         parent::boot();
 
-        $this->clearPreRenderCache();
+        Event::listen('Illuminate\Auth\Events\Logout', function ($event) {
+            $id = $event->user->id;
+
+            return $this->preCacheStore()->tags($this->cacheName($id, true))->flush();
+        });
     }
 }

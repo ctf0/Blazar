@@ -12,9 +12,11 @@ if (url) {
     var page = webpage.create()
     phantom.clearCookies()
 
-    page.customHeaders = {
-        'X-CSRF-TOKEN': token,
-        'user-id': userId
+    if (token) {
+        page.customHeaders = {
+            'X-CSRF-TOKEN': token,
+            'user-id': userId
+        }
     }
 
     page.open(url, function(status) {

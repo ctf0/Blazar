@@ -2,28 +2,8 @@
 
 namespace ctf0\Blazar\Traits;
 
-use Log;
-use Event;
-
 trait Helpers
 {
-    /**
-     * helpers.
-     *
-     * @param [type] $url [description]
-     *
-     * @return [type] [description]
-     */
-    protected function debugLog($url)
-    {
-        Log::debug($url);
-    }
-
-    /**
-     * cache.
-     *
-     * @return [type] [description]
-     */
     protected function preCacheStore()
     {
         return app('cache');
@@ -34,29 +14,8 @@ trait Helpers
         return 'blazar-';
     }
 
-    protected function cacheName($url)
+    protected function cacheName($item, $tag = null)
     {
-        return $this->cachePrefix() . $url;
-    }
-
-    /**
-     * dont/clear cache.
-     *
-     * @param mixed $response
-     *
-     * @return [type] [description]
-     */
-    protected function dontCache($response)
-    {
-        return $response->headers->get('dont-cache');
-    }
-
-    protected function clearPreRenderCache()
-    {
-        Event::listen('Illuminate\Auth\Events\Logout', function ($event) {
-            $id = $event->user->id;
-
-            return $this->preCacheStore()->tags($this->cacheName($id))->flush();
-        });
+        return $tag ? $this->cachePrefix() . $item : $this->cachePrefix() . md5($item);
     }
 }
