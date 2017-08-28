@@ -3,7 +3,6 @@
 namespace ctf0\Blazar\Traits;
 
 use Log;
-use Auth;
 use Event;
 
 trait Helpers
@@ -18,11 +17,6 @@ trait Helpers
     protected function debugLog($url)
     {
         Log::debug($url);
-    }
-
-    protected function logUserIn($id)
-    {
-        Auth::loginUsingId($id);
     }
 
     /**

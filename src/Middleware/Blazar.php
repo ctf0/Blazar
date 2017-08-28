@@ -2,6 +2,7 @@
 
 namespace ctf0\Blazar\Middleware;
 
+use Auth;
 use Closure;
 use ctf0\Blazar\Traits\Helpers;
 use ctf0\Blazar\Events\PreRendEvent;
@@ -15,29 +16,28 @@ class Blazar
     {
         // persist user login
         if ($id = $request->header('user-id')) {
-            $this->logUserIn($id);
+            Auth::loginUsingId($id);
         }
 
         $response = $next($request);
 
         // dont cache request
-        if ($this->dontCache($response) || !str_contains($request->getQueryString(), '_escaped_fragment')) {
+        if ($this->dontCache($response)) {
             return $response;
         }
 
         $url         = $request->url();
+        $query       = $request->getQueryString();
         $cache_store = $this->preCacheStore();
         $cache_name  = $this->cacheName($url);
 
         // for bots only
-        if (config('blazar.bots_only')) {
-            if (str_contains($request->fullUrl(), '_escaped_fragment')) {
-                return $this->preBots($request, $response, $url, $cache_store, $cache_name);
-            }
+        if (config('blazar.bots_only') && $query == '_escaped_fragment') {
+            return $this->preBots($request, $response, $url, $cache_store, $cache_name);
         }
 
         // for all pages
-        else {
+        if (!$query) {
             return $this->preAll($request, $response, $url, $cache_store, $cache_name);
         }
 
@@ -121,13 +121,7 @@ class Blazar
         ) {
             $url = $request->url();
 
-            if ($bots) {
-                event(new PreRendEvent($url));
-            } else {
-                $token = $request->session()->token();
-
-                event(new PreRendEventQ($url, $token, $userId));
-            }
+            $bots ? event(new PreRendEvent($url)) : event(new PreRendEventQ($url, $request->session()->token(), $userId));
         }
     }
 }
