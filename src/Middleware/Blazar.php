@@ -15,6 +15,11 @@ class Blazar
 
     public function handle($request, Closure $next)
     {
+        // persist user login
+        if ($id = $request->header('user-id')) {
+            Auth::loginUsingId($id);
+        }
+
         $response = $next($request);
 
         if ($this->dontPre($response)) {
@@ -28,11 +33,6 @@ class Blazar
 
             if (config('blazar.bots_only') && str_contains($url, '_escaped_fragment')) {
                 $this->preBots($response, $url, $cache_store, $cache_name);
-            }
-
-            // persist user login
-            if ($id = $request->header('user-id')) {
-                Auth::loginUsingId($id);
             }
 
             $this->preAll($response, $url, $cache_store, $cache_name);
