@@ -1,6 +1,6 @@
 # Blazar
 
-is a package that aims to help developers automate pre-rendering pages on the fly through utilizing [PhantomJs](phantomjs.org) which runs in the background when needed without adding any overhead to the server nor to the user experiance.
+is a package that aims to help developers automate pre-rendering pages on the fly through utilizing [PhantomJs](phantomjs.org) which runs in the background when needed without adding any overhead to the server nor to the user experience.
 
 # Installation
 
