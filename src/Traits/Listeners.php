@@ -2,8 +2,6 @@
 
 namespace ctf0\Blazar\Traits;
 
-use Log;
-
 trait Listeners
 {
     protected $phantom;
@@ -28,7 +26,7 @@ trait Listeners
      */
     protected function debugLog($url)
     {
-        Log::debug($url);
+        logger($url);
     }
 
     /**
