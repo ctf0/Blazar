@@ -104,9 +104,6 @@ if you decided to pre-render the pages for bots only, no need to the run the que
 
 however because we are caching the result, so this will only happen once per page.
 
-also note that we are saving the page cache equal to the url so even if you switched off the `bots_only` option,
-if the page is cached then we will always serve the cached result.
-
 # Notes
 
 #### # Why PhantomJs
