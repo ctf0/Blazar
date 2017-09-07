@@ -31,7 +31,7 @@ class Blazar
             $cache_store = $this->preCacheStore();
             $cache_name  = $this->cacheName($url);
 
-            if (config('blazar.bots_only') && str_contains($url, '_escaped_fragment')) {
+            if (config('blazar.bots_only') && str_contains($request->fullUrl(), '_escaped_fragment')) {
                 $this->preBots($response, $url, $cache_store, $cache_name);
             }
 

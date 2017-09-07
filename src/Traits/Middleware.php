@@ -28,8 +28,12 @@ trait Middleware
         $url = $request->url();
 
         if ($query = $request->query()) {
-            ksort($query);
-            $rebuild_query = http_build_query($query);
+            $str = str_contains($query, '_escaped_fragment')
+            ? preg_replace('/(\?|\&)_escaped_fragment_?/', '', $query)
+            : $query;
+
+            ksort($str);
+            $rebuild_query = http_build_query($str);
 
             return "{$url}?{$rebuild_query}";
         }
