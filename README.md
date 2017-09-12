@@ -129,15 +129,12 @@ brew services restart beanstalkd
 
 #### # Auth
 
-due to laravel refreshing the cookies values on each time the page gets ***visited/refreshed***, there is no way to attach the correct cookies to `PhantomJs` requests, which will cause issues with routes that use the **`auth` middleware**.
+as i dont know how to make laravel think that a page visited through phantomjs is the same as the current logged in user.
 
-what happens is you will be able to login & visit any of the guarded pages for the first time "not cached yet", but from the second visit you will be redirected to the login page instead,
-
-however we have a little trick to tackle that and the user status will persist across views, except each page he tries to visit will produce the same behavior,
+so trying to pre-render pages with **`auth` middleware** will be cashed as if the user was redirected to the home page or whatever you've set to **redirectTo** under `Constollers/Auth/LoginController.php` & `Middleware/RedirectIfAuthenticated.php`
 
 so to solve that, simply add **`dont-pre-render` middleware** to those routes and everything will work as expected.
-
-also make sure to add the middleware to the **"login & logout"** routes as well to avoid getting `CSRF Token Mismatch` for other users trying to login.
+also make sure to add the same middleware to any route that needs fresh csrf-token for each user **"login, register, etc.."** to avoid getting `CSRF Token Mismatch` for other users trying to use those pages.
 
 #### # More Reading
 - https://vuejsdevelopers.com/2017/04/09/vue-laravel-fake-server-side-rendering/

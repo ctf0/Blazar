@@ -62,6 +62,8 @@ trait Listeners
         $script  = $this->script !== '' ? $this->script : __DIR__ . '/../exec-phantom.js';
         $options = $this->options;
 
+        // $this->debugLog("$phantom $script $url \"$token\" \"$user_id\" $options");
+
         return $token
         ? shell_exec("$phantom $script $url \"$token\" \"$user_id\" $options")
         : shell_exec("$phantom $script $url $options");

@@ -52,9 +52,9 @@ trait Middleware
     protected function isPreRendable($request, $response)
     {
         return !$request->ajax() &&
-       !$request->pjax() &&
-       !str_contains($request->header('User-Agent'), 'PhantomJS') &&
-       $request->isMethodCacheable() &&
-       $response->isSuccessful();
+            !$request->pjax() &&
+            !str_contains($request->header('User-Agent'), 'PhantomJS') &&
+            $request->isMethodCacheable() &&
+            $response->isSuccessful();
     }
 }
