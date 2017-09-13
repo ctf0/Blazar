@@ -26,4 +26,9 @@ return [
      * log the url when its processed by phantomjs
      */
     'debug' => true,
+
+    /*
+     *  clear user cache on logout
+     */
+    'clear_user_cache' => true,
 ];

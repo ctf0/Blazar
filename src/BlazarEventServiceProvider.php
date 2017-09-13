@@ -19,10 +19,12 @@ class BlazarEventServiceProvider extends EventServiceProvider
     {
         parent::boot();
 
-        Event::listen('Illuminate\Auth\Events\Logout', function ($event) {
-            $id = $event->user->id;
+        if (config('blazar.clear_user_cache')) {
+            Event::listen('Illuminate\Auth\Events\Logout', function ($event) {
+                $id = $event->user->id;
 
-            return $this->preCacheStore()->tags($this->cacheName($id, true))->flush();
-        });
+                return $this->preCacheStore()->tags($this->cacheName($id, true))->flush();
+            });
+        }
     }
 }

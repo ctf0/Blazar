@@ -68,6 +68,11 @@ return [
      * log the url when its processed by phantomjs
      */
     'debug' => true,
+
+    /**
+     *  clear user cache on logout
+     */
+    'clear_user_cache' => true
 ];
 ```
 
@@ -92,10 +97,16 @@ Atm in order to ***pre-render*** any page, it have to be visited first but if yo
 
 #### # Flushing The Cache
 
-- to avoid cluttering the cache we are clearing each user cache on logout but incase you want to clear the whole package cache, you can use
+- to clear the whole package cache, you can use
 
 ```bash
 php artisan blazar:flush
+```
+
+and to run it from within your app
+
+```php
+Artisan::call('blazar:flush');
 ```
 
 #### # Bots Only
