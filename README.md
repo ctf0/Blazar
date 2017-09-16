@@ -150,6 +150,3 @@ also make sure to add the same middleware to any route that needs fresh csrf-tok
 #### # More Reading
 - https://vuejsdevelopers.com/2017/04/09/vue-laravel-fake-server-side-rendering/
 - http://thelazylog.com/using-PhantomJs-to-serve-html-content-of-single-page-app/
-
-# ToDo
-- do some testing with "Angular, React, etc.."

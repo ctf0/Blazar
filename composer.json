@@ -19,6 +19,7 @@
     ],
     "require": {
         "illuminate/support": "^5.4",
+        "ctf0/package-changelog": "^1.0",
         "php" : "~7.0"
     },
     "autoload": {
@@ -31,7 +32,8 @@
             "providers": [
                 "ctf0\\Blazar\\BlazarServiceProvider"
             ]
-        }
+        },
+        "changeLog": "logs"
     },
     "config": {
         "sort-packages": true
