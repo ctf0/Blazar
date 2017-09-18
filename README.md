@@ -1,14 +1,14 @@
 # Blazar
 
-is a package that aims to help developers automate pre-rendering pages on the fly through utilizing [PhantomJs](phantomjs.org) which runs in the background when needed without adding any overhead to the server nor to the user experience.
+aims to help automate pre-rendering pages on the fly through utilizing [PhantomJs](phantomjs.org) which runs in the background when needed without adding any overhead to the server nor to the user experience.
 
-# Installation
+## Installation
 
 - install [PhantomJs](http://phantomjs.org/download.html)
 
 - `composer require ctf0/blazar`
 
-- add the service provider to `config/app.php`
+- (Laravel < 5.5) add the service provider to `config/app.php`
 
 ```php
 'providers' => [
@@ -36,8 +36,7 @@ protected $routeMiddleware = [
 
 - the package use caching through **Redis** to store the rendered results, so make sure to check the [docs](https://laravel.com/docs/5.4/redis) for installation & configuration.
 
-# Config
-
+## Config
 **config/blazar.php**
 
 ```php
@@ -76,7 +75,7 @@ return [
 ];
 ```
 
-# Usage
+## Usage
 
 - we use [Queues](https://laravel.com/docs/5.4/events#queued-event-listeners) to **pre-render the visited pages** in the background for more than one reason
 
@@ -103,7 +102,7 @@ Atm in order to ***pre-render*** any page, it have to be visited first but if yo
 php artisan blazar:flush
 ```
 
-and to run it from within your app
+or from within your app
 
 ```php
 Artisan::call('blazar:flush');
@@ -117,7 +116,7 @@ however because we are caching the result, so this will only happen once per pag
 
 also note that we are saving the page cache equal to the url so even if you switched off the `bots_only` option, if the page is cached then we will always serve the cached result.
 
-# Notes
+## Notes
 
 #### # Why PhantomJs
 

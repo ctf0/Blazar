@@ -18,6 +18,8 @@ class DontPreRender
     {
         $response = $next($request);
 
-        return $response->withHeaders(['dont-pre-render' => true]);
+        $response->headers->set('dont-pre-render', true);
+
+        return $response;
     }
 }
