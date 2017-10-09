@@ -2,6 +2,7 @@
 
 namespace ctf0\Blazar;
 
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 class BlazarServiceProvider extends ServiceProvider
@@ -29,6 +30,10 @@ class BlazarServiceProvider extends ServiceProvider
 
         // events & listeners
         $this->app->register(BlazarEventServiceProvider::class);
+
+        // packages
+        $this->app->register(\Jaybizzle\LaravelCrawlerDetect\LaravelCrawlerDetectServiceProvider::class);
+        AliasLoader::getInstance()->alias('Crawler', 'Jaybizzle\LaravelCrawlerDetect\Facades\LaravelCrawlerDetect');
         $this->app->register(\ctf0\PackageChangeLog\PackageChangeLogServiceProvider::class);
     }
 }

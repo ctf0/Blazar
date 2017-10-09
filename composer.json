@@ -18,9 +18,10 @@
         }
     ],
     "require": {
+        "php" : "~7.0",
         "illuminate/support": "^5.4",
-        "ctf0/package-changelog": "^1.0",
-        "php" : "~7.0"
+        "jaybizzle/laravel-crawler-detect": "^1.0",
+        "ctf0/package-changelog": "^1.0"
     },
     "autoload": {
         "psr-4": {

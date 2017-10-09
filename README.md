@@ -59,7 +59,7 @@ return [
     'options' => '--ignore-ssl-errors=true --ssl-protocol=any --disk-cache=false --debug=true 2>&1',
 
     /*
-     * prerender the page only if the url has "?_escaped_fragment"
+     * prerender the page only if the url is being visited from a bot/crawler
      */
     'bots_only' => false,
 
@@ -110,11 +110,13 @@ Artisan::call('blazar:flush');
 
 #### # Bots Only
 
+> we now use [CrawlerDetect](https://github.com/JayBizzle/Laravel-Crawler-Detect) instead of relying on '?_escaped_fragment_'
+
 if you decided to pre-render the pages for bots only, no need to the run the queue as the page will remain busy **"stalled response"** until rendered by `PhantomJs`, which happens on the fly.
 
 however because we are caching the result, so this will only happen once per page.
 
-also note that we are saving the page cache equal to the url so even if you switched off the `bots_only` option, if the page is cached then we will always serve the cached result.
+also note that we are saving the page cache equal to the url so even if you switched off the `bots_only` option, if the page is cached, we will always serve the cached result.
 
 ## Notes
 

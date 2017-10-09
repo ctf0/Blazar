@@ -8,6 +8,7 @@ use ctf0\Blazar\Traits\Helpers;
 use ctf0\Blazar\Traits\Middleware;
 use ctf0\Blazar\Events\PreRendEvent;
 use ctf0\Blazar\Events\PreRendEventQ;
+use Jaybizzle\LaravelCrawlerDetect\Facades\LaravelCrawlerDetect as Crawler;
 
 class Blazar
 {
@@ -31,11 +32,11 @@ class Blazar
             $cache_store = $this->preCacheStore();
             $cache_name  = $this->cacheName($url);
 
-            if (config('blazar.bots_only') && str_contains($request->fullUrl(), '_escaped_fragment')) {
+            if (config('blazar.bots_only') && Crawler::isCrawler()) {
                 $this->preBots($response, $url, $cache_store, $cache_name);
+            } else {
+                $this->preAll($response, $url, $cache_store, $cache_name);
             }
-
-            $this->preAll($response, $url, $cache_store, $cache_name);
         }
 
         return $response;

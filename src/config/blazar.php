@@ -18,7 +18,8 @@ return [
     'options' => '--ignore-ssl-errors=true --ssl-protocol=any --disk-cache=false --debug=true 2>&1',
 
     /*
-     * prerender the page only if the url has "?_escaped_fragment"
+     * prerender the page only if the url is being visited from a bot/crawler
+     * https://github.com/JayBizzle/Laravel-Crawler-Detect
      */
     'bots_only' => false,
 
