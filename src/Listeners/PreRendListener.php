@@ -34,7 +34,7 @@ class PreRendListener
     protected function cacheResult($url, $cache_name, $output)
     {
         // couldnt open url
-        if ($output == 'Something Went Wrong') {
+        if ('Something Went Wrong' == $output) {
             $this->debugLog("Bot-$url : $output");
 
             return;

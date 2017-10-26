@@ -1,6 +1,10 @@
 # Blazar
 
-aims to help automate pre-rendering pages on the fly through utilizing [PhantomJs](phantomjs.org) which runs in the background when needed without adding any overhead to the server nor to the user experience.
+[![Latest Stable Version](https://img.shields.io/packagist/v/ctf0/blazar.svg?style=for-the-badge)](https://packagist.org/packages/ctf0/blazar) [![Total Downloads](https://img.shields.io/packagist/dt/ctf0/blazar.svg?style=for-the-badge)](https://packagist.org/packages/ctf0/blazar)
+
+Automate pre-rendering pages on the fly through utilizing [PhantomJs](phantomjs.org) which runs in the background when needed without adding any overhead to the server nor to the user experience.
+
+<br>
 
 ## Installation
 
@@ -35,6 +39,8 @@ protected $routeMiddleware = [
 ```
 
 - the package use caching through **Redis** to store the rendered results, so make sure to check the [docs](https://laravel.com/docs/5.4/redis) for installation & configuration.
+
+<br>
 
 ## Config
 **config/blazar.php**
@@ -75,6 +81,8 @@ return [
 ];
 ```
 
+<br>
+
 ## Usage
 
 - we use [Queues](https://laravel.com/docs/5.4/events#queued-event-listeners) to **pre-render the visited pages** in the background for more than one reason
@@ -82,7 +90,7 @@ return [
     >- avoid latency when the page is being accessed for the first time.
     >- don't keep the user waiting in case `PhantomJs` took long to render the page or when something goes wrong.
     >- after `PhantomJs` has finished rendering, the page is cached to optimize server load even further.
-    >- make your website **SEO friendly**, because instead of serving the normal pages that usually produce issues for crawlers, we are now serving the **pre-renderd version**. [ReadMore](#render-pages-automatically)
+    >- make your website **SEO friendly**, because instead of serving the normal pages that usually produce issues for crawlers, we are now serving the **pre-renderd version**. [ReadMore](#-render-pages-automatically)
     >- even for websites with some traffic, we are still going to process each visited page without any problems.
 
 #### # Render Pages Automatically
@@ -110,13 +118,15 @@ Artisan::call('blazar:flush');
 
 #### # Bots Only
 
-> we now use [CrawlerDetect](https://github.com/JayBizzle/Laravel-Crawler-Detect) instead of relying on '?_escaped_fragment_'
+> we now use [CrawlerDetect](https://github.com/JayBizzle/Laravel-Crawler-Detect) instead of relying on '\?\_escaped_fragment_'
 
 if you decided to pre-render the pages for bots only, no need to the run the queue as the page will remain busy **"stalled response"** until rendered by `PhantomJs`, which happens on the fly.
 
 however because we are caching the result, so this will only happen once per page.
 
 also note that we are saving the page cache equal to the url so even if you switched off the `bots_only` option, if the page is cached, we will always serve the cached result.
+
+<br>
 
 ## Notes
 
@@ -134,7 +144,7 @@ the worker should only fires when <u>a url is visited & if this url is not cache
 however if you have an unfinished old process, the queue will start processing pages on its own, so to fix that, simply restart the queue server `beanstalkd, redis, etc...`
 
 ```bash
-# ex. using HomeBrew
+# ex. using Homebrew
 
 brew services restart beanstalkd
 ```
@@ -143,11 +153,12 @@ brew services restart beanstalkd
 
 as i dont know how to make laravel think that a page visited through phantomjs is the same as the current logged in user.
 
-so trying to pre-render pages with **`auth` middleware** will be cashed as if the user was redirected to the home page or whatever you've set to **redirectTo** under `Constollers/Auth/LoginController.php` & `Middleware/RedirectIfAuthenticated.php`
+so trying to pre-render pages with **`auth` middleware** will be cashed as if the user was redirected to the home page or whatever you've set to **redirectTo** under
+`Constollers/Auth/LoginController.php` & `Middleware/RedirectIfAuthenticated.php`
 
 so to solve that, simply add **`dont-pre-render` middleware** to those routes and everything will work as expected.
 also make sure to add the same middleware to any route that needs fresh csrf-token for each user **"login, register, etc.."** to avoid getting `CSRF Token Mismatch` for other users trying to use those pages.
 
 #### # More Reading
 - https://vuejsdevelopers.com/2017/04/09/vue-laravel-fake-server-side-rendering/
-- http://thelazylog.com/using-PhantomJs-to-serve-html-content-of-single-page-app/
+- https://vuejsdevelopers.com/2017/11/06/vue-js-laravel-server-side-rendering/

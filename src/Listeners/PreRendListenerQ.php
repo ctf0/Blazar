@@ -42,7 +42,7 @@ class PreRendListenerQ implements ShouldQueue
     protected function cacheResult($url, $cache_name, $userId, $output)
     {
         // couldnt open url
-        if ($output == 'Something Went Wrong') {
+        if ('Something Went Wrong' == $output) {
             $this->debugLog("$url : $output");
 
             return;
