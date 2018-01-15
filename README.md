@@ -153,7 +153,7 @@ brew services restart beanstalkd
 
 as i dont know how to make laravel think that a page visited through phantomjs is the same as the current logged in user.
 
-so trying to pre-render pages with **`auth` middleware** will be cashed as if the user was redirected to the home page or whatever you've set to **redirectTo** under
+so trying to pre-render pages with **`auth` middleware** will be cashed as if the user was redirected to the home page or whatever you've set to **redirectTo** under  
 `Constollers/Auth/LoginController.php` & `Middleware/RedirectIfAuthenticated.php`
 
 so to solve that, simply add **`dont-pre-render` middleware** to those routes and everything will work as expected.
