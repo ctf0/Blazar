@@ -16,6 +16,8 @@ trait Helpers
 
     protected function cacheName($item, $tag = null)
     {
-        return $tag ? $this->cachePrefix() . $item : $this->cachePrefix() . md5($item);
+        return $tag
+            ? $this->cachePrefix() . $item
+            : $this->cachePrefix() . md5($item);
     }
 }

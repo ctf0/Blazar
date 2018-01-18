@@ -1,0 +1,2 @@
+- use puppeteer instead of phantomjs
+- update readme

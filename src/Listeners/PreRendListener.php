@@ -18,7 +18,7 @@ class PreRendListener
         $this->cacheResult(
             $url,
             $cache_name,
-            $this->runPhantom($this->prepareUrlForShell($url))
+            $this->runChrome($this->prepareUrlForShell($url))
         );
     }
 
@@ -34,7 +34,7 @@ class PreRendListener
     protected function cacheResult($url, $cache_name, $output)
     {
         // couldnt open url
-        if ('Something Went Wrong' == $output) {
+        if (str_contains($output, 'Something Went Wrong')) {
             $this->debugLog("Bot-$url : $output");
 
             return;
@@ -42,7 +42,7 @@ class PreRendListener
 
         // log result
         if ($this->debug) {
-            $this->debugLog("Bot-$url : Processed By Phantomjs");
+            $this->debugLog("Bot-$url : Processed By Puppeteer");
         }
 
         // save to cache

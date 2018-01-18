@@ -4,17 +4,15 @@ namespace ctf0\Blazar\Traits;
 
 trait Listeners
 {
-    protected $phantom;
+    protected $puppet;
     protected $script;
-    protected $options;
     protected $debug;
 
     public function __construct()
     {
-        $this->phantom  = config('blazar.phantom_path');
-        $this->script   = config('blazar.script_path');
-        $this->options  = config('blazar.options');
-        $this->debug    = config('blazar.debug');
+        $this->puppet = config('blazar.puppeteer_path');
+        $this->script = config('blazar.script_path');
+        $this->debug  = config('blazar.debug');
     }
 
     /**
@@ -48,7 +46,7 @@ trait Listeners
     }
 
     /**
-     * process with phantom.
+     * process with puppeteer.
      *
      * @param [type] $url     [description]
      * @param [type] $token   [description]
@@ -56,16 +54,16 @@ trait Listeners
      *
      * @return [type] [description]
      */
-    protected function runPhantom($url, $token = null, $user_id = null)
+    protected function runChrome($url, $token = null, $user_id = null)
     {
-        $phantom = $this->phantom;
-        $script  = '' !== $this->script ? $this->script : __DIR__ . '/../exec-phantom.js';
-        $options = $this->options;
+        $puppet = $this->puppet;
+        $script = $this->script ?: dirname(__DIR__) . '/exec-chrome.js';
+        $cmnd   = "node '$script' '$puppet' '$url'";
 
-        // $this->debugLog("$phantom $script $url \"$token\" \"$user_id\" $options");
+        // $this->debugLog("node '$script' '$puppet' '$url' '$token' '$user_id'");
 
         return $token
-            ? shell_exec("$phantom $script $url \"$token\" \"$user_id\" $options")
-            : shell_exec("$phantom $script $url $options");
+            ? shell_exec($cmnd . " '$token' '$user_id'")
+            : shell_exec($cmnd);
     }
 }

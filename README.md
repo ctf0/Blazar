@@ -2,13 +2,20 @@
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/ctf0/blazar.svg?style=for-the-badge)](https://packagist.org/packages/ctf0/blazar) [![Total Downloads](https://img.shields.io/packagist/dt/ctf0/blazar.svg?style=for-the-badge)](https://packagist.org/packages/ctf0/blazar)
 
-Automate pre-rendering pages on the fly through utilizing [PhantomJs](phantomjs.org) which runs in the background when needed without adding any overhead to the server nor to the user experience.
+Automate pre-rendering pages on the fly through utilizing [puppeteer](https://github.com/GoogleChrome/puppeteer) which runs in the background when needed without adding any overhead to the server nor to the user experience.
 
 <br>
 
+## Caveats
+
+if you use something like **vuejs, react,etc..**, after the page is cached, probably none of the components will work.
+i believe this would be the case using any of the page caching mechanism (could be wrong) as any one of those frameworks needs to be in-control of the DOM rendering which by fetching the content from the cache we basically prevent that.
+
+in the light of those findings, i think the package maybe be kinda absolute as more and more ppl are moving toward using frameworks rather than using plain js or jQuery.
+
 ## Installation
 
-- install [PhantomJs](http://phantomjs.org/download.html)
+- install [puppeteer](https://github.com/GoogleChrome/puppeteer#installation)
 
 - `composer require ctf0/blazar`
 
@@ -48,21 +55,16 @@ protected $routeMiddleware = [
 ```php
 return [
     /*
-     * phantomjs bin path
+     * puppeteer bin path
      */
-    'phantom_path' => '',
+    'puppeteer_path' => '',
 
     /*
-     * phantomjs script path
+     * puppeteer script path
      *
      * leave it empty to the use the one from the package
      */
     'script_path' => '',
-
-    /*
-     * phantomjs options
-     */
-    'options' => '--ignore-ssl-errors=true --ssl-protocol=any --disk-cache=false --debug=true 2>&1',
 
     /*
      * prerender the page only if the url is being visited from a bot/crawler
@@ -70,7 +72,7 @@ return [
     'bots_only' => false,
 
     /*
-     * log the url when its processed by phantomjs
+     * log the url when its processed by puppeteer
      */
     'debug' => true,
 
@@ -88,8 +90,8 @@ return [
 - we use [Queues](https://laravel.com/docs/5.4/events#queued-event-listeners) to **pre-render the visited pages** in the background for more than one reason
 
     >- avoid latency when the page is being accessed for the first time.
-    >- don't keep the user waiting in case `PhantomJs` took long to render the page or when something goes wrong.
-    >- after `PhantomJs` has finished rendering, the page is cached to optimize server load even further.
+    >- don't keep the user waiting in case `puppeteer` took long to render the page or when something goes wrong.
+    >- after `puppeteer` has finished rendering, the page is cached to optimize server load even further.
     >- make your website **SEO friendly**, because instead of serving the normal pages that usually produce issues for crawlers, we are now serving the **pre-renderd version**. [ReadMore](#-render-pages-automatically)
     >- even for websites with some traffic, we are still going to process each visited page without any problems.
 
@@ -120,7 +122,7 @@ Artisan::call('blazar:flush');
 
 > we now use [CrawlerDetect](https://github.com/JayBizzle/Laravel-Crawler-Detect) instead of relying on '\?\_escaped_fragment_'
 
-if you decided to pre-render the pages for bots only, no need to the run the queue as the page will remain busy **"stalled response"** until rendered by `PhantomJs`, which happens on the fly.
+if you decided to pre-render the pages for bots only, no need to the run the queue as the page will remain busy **"stalled response"** until rendered by `puppeteer`, which happens on the fly.
 
 however because we are caching the result, so this will only happen once per page.
 
@@ -129,14 +131,6 @@ also note that we are saving the page cache equal to the url so even if you swit
 <br>
 
 ## Notes
-
-#### # Why PhantomJs
-
-I've tried both [usus](https://github.com/gajus/usus) & [puppeteer](https://github.com/GoogleChrome/puppeteer),
-
-And my only take that both needs to run an instance of **Chrome**, while i wanted to keep the whole thing as hidden and as low-leveled as possible.
-
-however if anyone knows how to get any to work as "PhantomJs", am all ears :ear: .
 
 #### # Queues
 
@@ -151,9 +145,9 @@ brew services restart beanstalkd
 
 #### # Auth
 
-as i dont know how to make laravel think that a page visited through phantomjs is the same as the current logged in user.
+as i dont know how to make laravel think that a page visited through puppeteer is the same as the current logged in user.
 
-so trying to pre-render pages with **`auth` middleware** will be cashed as if the user was redirected to the home page or whatever you've set to **redirectTo** under  
+so trying to pre-render pages with **`auth` middleware** will be cashed as if the user was redirected to the home page or whatever you've set to **redirectTo** under
 `Constollers/Auth/LoginController.php` & `Middleware/RedirectIfAuthenticated.php`
 
 so to solve that, simply add **`dont-pre-render` middleware** to those routes and everything will work as expected.

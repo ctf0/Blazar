@@ -19,7 +19,7 @@ class BlazarFlush extends Command
      *
      * @var string
      */
-    protected $description = 'clear BLAZAR package cache';
+    protected $description = 'clear Blazar package cache';
 
     /**
      * Execute the console command.
@@ -34,6 +34,6 @@ class BlazarFlush extends Command
             $redis->del($key);
         }
 
-        $this->info('BLAZAR cache was cleared');
+        $this->info('Blazar cache was cleared');
     }
 }

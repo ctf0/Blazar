@@ -29,8 +29,8 @@ trait Middleware
 
         if ($query = $request->query()) {
             $str = str_contains($query, '_escaped_fragment')
-            ? preg_replace('/(\?|\&)_escaped_fragment_?/', '', $query)
-            : $query;
+                ? preg_replace('/(\?|\&)_escaped_fragment_?/', '', $query)
+                : $query;
 
             ksort($str);
             $rebuild_query = http_build_query($str);
@@ -51,9 +51,9 @@ trait Middleware
      */
     protected function isPreRendable($request, $response)
     {
-        return !$request->ajax() &&
+        return !str_contains($request->header('User-Agent'), 'HeadlessChrome') &&
+            !$request->ajax() &&
             !$request->pjax() &&
-            !str_contains($request->header('User-Agent'), 'PhantomJS') &&
             $request->isMethodCacheable() &&
             $response->isSuccessful();
     }
