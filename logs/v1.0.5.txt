@@ -1,5 +1,0 @@
-- use crawler detect instead of relying on ‘?_escaped_fragment'
-- add changelog feature so now you can track what changes are made to the package
-- add option for clearing user cache on logout
-- cleanup and make sure the script on runs on bot or all
-- update read me

@@ -14,8 +14,8 @@ class PreRendEventQ
 
     public function __construct($url, $token, $userId)
     {
-        $this->url     = $url;
-        $this->token   = $token;
-        $this->userId  = $userId;
+        $this->url    = $url;
+        $this->token  = $token;
+        $this->userId = $userId;
     }
 }

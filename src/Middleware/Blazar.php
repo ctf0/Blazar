@@ -32,11 +32,9 @@ class Blazar
             $cache_store = $this->preCacheStore();
             $cache_name  = $this->cacheName($url);
 
-            if (config('blazar.bots_only') && Crawler::isCrawler()) {
-                $this->preBots($response, $url, $cache_store, $cache_name);
-            } else {
-                $this->preAll($response, $url, $cache_store, $cache_name);
-            }
+            config('blazar.bots_only') && Crawler::isCrawler()
+                ? $this->preBots($response, $url, $cache_store, $cache_name)
+                : $this->preAll($response, $url, $cache_store, $cache_name);
         }
 
         return $response;
@@ -104,6 +102,8 @@ class Blazar
      */
     protected function preRenderedResponse($url, $userId = null, $bots = null)
     {
-        $bots ? event(new PreRendEvent($url)) : event(new PreRendEventQ($url, csrf_token(), $userId));
+        $bots
+            ? event(new PreRendEvent($url))
+            : event(new PreRendEventQ($url, csrf_token(), $userId));
     }
 }

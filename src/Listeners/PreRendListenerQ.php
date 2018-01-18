@@ -24,7 +24,7 @@ class PreRendListenerQ implements ShouldQueue
             $userId,
             $this->replaceToken(
                 $token,
-                $this->runPhantom($this->prepareUrlForShell($url), $token, $userId)
+                $this->runChrome($this->prepareUrlForShell($url), $token, $userId)
             )
         );
     }
@@ -42,7 +42,7 @@ class PreRendListenerQ implements ShouldQueue
     protected function cacheResult($url, $cache_name, $userId, $output)
     {
         // couldnt open url
-        if ('Something Went Wrong' == $output) {
+        if (str_contains($output, 'Something Went Wrong')) {
             $this->debugLog("$url : $output");
 
             return;
@@ -50,23 +50,26 @@ class PreRendListenerQ implements ShouldQueue
 
         // log result
         if ($this->debug) {
-            $this->debugLog("$url : Processed By Phantomjs");
+            $this->debugLog("$url : Processed By Puppeteer");
         }
 
         // save to cache
         if ($userId) {
-            return $this->preCacheStore()->tags($this->cacheName($userId, true))->rememberForever($cache_name, function () use ($output) {
-                return $output;
-            });
+            return $this->preCacheStore()
+                ->tags($this->cacheName($userId, true))
+                ->rememberForever($cache_name, function () use ($output) {
+                    return $output;
+                });
         }
 
-        return $this->preCacheStore()->rememberForever($cache_name, function () use ($output) {
-            return $output;
-        });
+        return $this->preCacheStore()
+            ->rememberForever($cache_name, function () use ($output) {
+                return $output;
+            });
     }
 
     /**
-     * replace "phantom" csrf_token with "current user".
+     * replace "Puppeteer" csrf_token with "current user".
      *
      * @param [type] $token  [description]
      * @param [type] $output [description]

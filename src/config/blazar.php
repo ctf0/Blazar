@@ -2,20 +2,18 @@
 
 return [
     /*
-     * phantomjs bin path
+     * puppeteer path
+     *
+     * npm -g install puppeteer
+     * which puppeteer
      */
-    'phantom_path' => '',
+    'puppeteer_path' => '/usr/local/lib/node_modules/puppeteer',
 
     /*
-     * phantomjs script path
+     * puppeteer script path
      * leave it empty to the use the one from the package
      */
     'script_path' => '',
-
-    /*
-     * phantomjs options
-     */
-    'options' => '--ignore-ssl-errors=true --ssl-protocol=any --disk-cache=false --debug=true 2>&1',
 
     /*
      * prerender the page only if the url is being visited from a bot/crawler
@@ -24,12 +22,12 @@ return [
     'bots_only' => false,
 
     /*
-     * log the url when its processed by phantomjs
+     * log the url when its processed by puppeteer
      */
-    'debug' => true,
+    'debug' => false,
 
     /*
      *  clear user cache on logout
      */
-    'clear_user_cache' => true,
+    'clear_user_cache' => false,
 ];
