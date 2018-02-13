@@ -1,17 +1,12 @@
+> ### This project is abandoned due to impracticality, i would highly recommend to try using ServiceWorkers and here is [a little article](https://ctf0.wordpress.com/2018/07/14/laravel-and-pwa/) to get you started.
+
+
+
 # Blazar
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/ctf0/blazar.svg?style=for-the-badge)](https://packagist.org/packages/ctf0/blazar) [![Total Downloads](https://img.shields.io/packagist/dt/ctf0/blazar.svg?style=for-the-badge)](https://packagist.org/packages/ctf0/blazar)
+[![Latest Stable Version](https://img.shields.io/packagist/v/ctf0/blazar.svg)](https://packagist.org/packages/ctf0/blazar) [![Total Downloads](https://img.shields.io/packagist/dt/ctf0/blazar.svg)](https://packagist.org/packages/ctf0/blazar)
 
 Automate pre-rendering pages on the fly through utilizing [puppeteer](https://github.com/GoogleChrome/puppeteer) which runs in the background when needed without adding any overhead to the server nor to the user experience.
-
-<br>
-
-## Caveats
-
-if you use something like **vuejs, react,etc..**, after the page is cached, probably none of the components will work.  
-i believe this would be the case using any of the page caching mechanism (could be wrong) as any one of those frameworks needs to be in-control of the DOM rendering which by fetching the content from the cache we basically prevent that.
-
-So in the light of the new findings, i think the package maybe be kinda absolute as more and more ppl are moving toward using frameworks rather than using plain js or jQuery.
 
 <br>
 
@@ -149,7 +144,7 @@ brew services restart beanstalkd
 
 as i dont know how to make laravel think that a page visited through puppeteer is the same as the current logged in user.
 
-so trying to pre-render pages with **`auth` middleware** will be cashed as if the user was redirected to the home page or whatever you've set to **redirectTo** under
+so trying to pre-render pages with **`auth` middleware** will be cached as if the user was redirected to the home page or whatever you've set to **redirectTo** under
 `Constollers/Auth/LoginController.php` & `Middleware/RedirectIfAuthenticated.php`
 
 so to solve that, simply add **`dont-pre-render` middleware** to those routes and everything will work as expected.
